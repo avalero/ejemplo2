@@ -30,16 +30,20 @@ int main()
 {
   Person alberto{"Alberto", 18, "123456789J", "alberto.valero@bq.com", Car{"Hyundai", "1234ABC"}};
   Person maria{"Maria", 20, "123436789J", "maria@bq.com", Car{"Kia", "1234ABC"}};
-  vector<Person> personas{alberto, maria};
-  personas.push_back(alberto);
-  personas.push_back(maria);
+  Person luis{"Luis", 14, "123436789J", "maria@bq.com", Car{"Kia", "1234ABC"}};
+  vector<Person> personas{alberto, maria, luis};
 
-  personas.at(0); // alberto
-  personas.at(1); // maria
-  personas.at(2); // alberto
-  personas.at(3); // maria
+  for (int i{0}; i < personas.size(); i++)
+  {
+    if (personas.at(i).age >= 18)
+      cout << personas.at(i).name << endl;
+  }
 
-  cout << personas.size() << endl; // 4
+  for (Person p : personas)
+  {
+    if (p.age >= 18)
+      cout << p.name << endl;
+  }
 
   return 0;
 }
