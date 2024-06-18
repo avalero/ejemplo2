@@ -38,7 +38,7 @@ TEST(functions_test, includes_vectors_test)
   vector<shared_ptr<Person>> personas{persona1, persona2, persona3, persona5, persona6, persona7};
   vector<shared_ptr<Person>> subvector{persona3, persona5, persona6, persona7};
 
-    EXPECT_TRUE(includes(personas, subvector));
+  EXPECT_TRUE(includes(personas, subvector));
 }
 
 TEST(functions_test, intersection_test)
@@ -58,10 +58,7 @@ TEST(functions_test, intersection_test)
   auto result = intersection(personas1, personas2);
 
   EXPECT_EQ(result.size(), 4);
-  EXPECT_TRUE(includes(result, persona3));
-  EXPECT_TRUE(includes(result, persona5));
-  EXPECT_TRUE(includes(result, persona6));
-  EXPECT_TRUE(includes(result, persona7));
+  EXPECT_TRUE(includes(result, {persona3, persona5, persona6, persona7}));
 }
 
 TEST(functions_test, vector_union_test)
