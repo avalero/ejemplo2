@@ -66,6 +66,15 @@ vP transformPerson(vP const &v, PersonFunPerson const &f)
   }
   return result;
 }
+shared_ptr<Person> findPerson(vP const &v, boolFunPerson const &f)
+{
+  for (auto elem : v)
+  {
+    if (f(elem))
+      return elem;
+  }
+  return nullptr;
+}
 
 int main()
 {
@@ -76,6 +85,12 @@ int main()
       make_shared<Person>(Person{"Luis", 13}),
       make_shared<Person>(Person{"María", 65}),
       make_shared<Person>(Person{"Lucía", 19})};
+
+  auto encontrada = findPerson(personas, [](shared_ptr<Person> p)
+                               { return p->name == "Lucía"; });
+
+  if (encontrada)
+    cout << encontrada->name;
 
   forEachPersons(personas, [](shared_ptr<Person> p)
                  { cout << p->name << endl; });
