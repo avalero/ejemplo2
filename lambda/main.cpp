@@ -151,4 +151,11 @@ int main()
           {
               int size = fibonacci.size();
               fibonacci.push_back( fibonacci.at(size -1) + fibonacci.at(size-2)); });
+
+  int suma{0};
+
+  forEach(fibonacci, [&suma](int elem, int i)
+          { suma = suma + elem; });
+
+  // suma = 1 +2+3+5+8+13+....
 }
