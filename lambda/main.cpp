@@ -141,4 +141,14 @@ int main()
 
   forEach(a, [&nuevo, b](int elem, int i)
           { nuevo.push_back(elem + b.at(i)); });
+
+  cout << endl;
+
+  vector<int> contador{3, 4, 5, 6, 7, 8, 9, 10};
+  vector<int> fibonacci{1, 2};
+
+  forEach(contador, [&fibonacci](int elem, int i)
+          {
+              int size = fibonacci.size();
+              fibonacci.push_back( fibonacci.at(size -1) + fibonacci.at(size-2)); });
 }
