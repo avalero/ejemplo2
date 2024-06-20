@@ -17,8 +17,16 @@ typedef function<bool(shared_ptr<Person>)> boolFunPerson;
 typedef function<shared_ptr<Person>(shared_ptr<Person>)> PersonFunPerson;
 
 typedef vector<int> vi;
-typedef function<void(int)> flambda;
+typedef function<void(int, int)> flambda;
 typedef function<bool(int)> boollambda;
+
+void forEach(vi const v, flambda const f)
+{
+  for (int i{0}; i < v.size(); i++)
+  {
+    f(v.at(i), i);
+  }
+}
 
 void forEachPersons(vP const &v, voidFunPerson const &f)
 {
@@ -120,6 +128,17 @@ int main()
                                           p->edad++;
                                           return p; });
 
-  for (auto p : todosMasViejos)
-    cout << p->name;
+  // {1,2,3,4,5,6,7}
+  // {2,3,4,5,6,6,3}
+
+  vector<int> a{1, 2, 3, 4, 5, 6, 7};
+  vector<int> b{2, 3, 4, 5, 6, 6, 3};
+  vector<int> nuevo;
+
+  // []  --> no tengo acceso a nada de fuera
+  // [&] --> tengo acceso a lo de fuera como referencia
+  // [=] --> tengo acceso a lo de fuera como referencia constante
+
+  forEach(a, [&nuevo, b](int elem, int i)
+          { nuevo.push_back(elem + b.at(i)); });
 }
