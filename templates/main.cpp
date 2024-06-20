@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <functional>
 
 using namespace std;
 
@@ -9,21 +11,21 @@ struct Person
 };
 
 template <typename T>
-T suma(T a, T b)
+void forEach(vector<T> const &v, function<void(T)> const &f)
 {
-  return a + b;
-}
-
-Person suma(Person a, Person b)
-{
-  return a;
+  for (auto elem : v)
+    f(elem);
 }
 
 int main()
 {
-  auto c = suma<int>(3, 4);
-  auto b = suma<string>("hola", "adios");
-  auto h = suma<Person>(Person{"Alberto", 18}, Person{"Maria", 24});
+
+  vector<int> v{1, 2, 3, 34, 4, 5, 5, 6, 3};
+  forEach<int>(v, [](int elem)
+               { cout << elem; });
+
+  forEach<Person>({Person("Alberto", 12), Person("Lucia", 13)}, [](Person l)
+                  { cout << l.name; });
 
   return 0;
 }
