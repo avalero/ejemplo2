@@ -2,40 +2,59 @@
 
 using namespace std;
 
-typedef shared_ptr<Node> P_Node;
-
+template <typename T>
 struct Node
 {
-  int data;
+  T data;
   shared_ptr<Node> next;
 };
 
-P_Node push(P_Node first, int data)
+template <typename T>
+using P_Node = shared_ptr<Node<T>>;
+
+template <typename T>
+P_Node<T> push(P_Node<T> first, T const &data)
 {
   auto it = first;
   while (it->next)
   {
     it = it->next;
   }
-  P_Node nNode = make_shared<Node>(Node{data, nullptr});
+  P_Node<T> nNode = make_shared<Node<T>>(Node<T>{data, nullptr});
   it->next = nNode;
   return nNode;
 }
 
-P_Node push_r(P_Node first, int data)
+template <typename T>
+P_Node<T> push_r(P_Node<T> first, T const &data)
 {
   if (first->next)
-    return push_r(first->next, data);
+    return push_r<T>(first->next, data);
 
-  P_Node nNode = make_shared<Node>(Node{data, nullptr});
+  P_Node<T> nNode = make_shared<Node<T>>(Node<T>{data, nullptr});
   first->next = nNode;
   return nNode;
+}
+
+void imprimir_elems(P_Node first)
+{
+  // mostrar todos los datos // iterativo
+}
+
+void imprimir_recursivo(P_Node first)
+{
+  // mostrar todos los datos;
+}
+
+void forEach(P_Node first, /* funcion lambda*/)
+{
+  // hace lo que diga la f_lambda
 }
 
 int main()
 {
 
-  P_Node start = make_shared<Node>(Node{1, nullptr});
+  P_Node<int> start = make_shared<Node<int>>(Node<int>{1, nullptr});
   auto segundo = push(start, 23);
   auto tercero = push(segundo, 31);
   push(tercero, 45);
