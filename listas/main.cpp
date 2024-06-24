@@ -100,6 +100,12 @@ void remove(P_Node<T> &head, string const &id)
 
 int main()
 {
+
+  // 1. Mostrar todos (id, nombre, telefon)
+  // 2. Añadir (nombre, telefono)
+  // 3. Borrar (por id)
+  // 4. Buscar (por nombre) -> mostrar
+
   // intialize seed
   srand(time(0));
 
