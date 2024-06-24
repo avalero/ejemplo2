@@ -82,6 +82,22 @@ void forEach(P_Node<T> first, function<void(P_Node<T>)> f)
   }
 }
 
+template <typename T>
+void remove(P_Node<T> &head, string const &id)
+{
+  if (head->id == id)
+    head = head->next;
+
+  auto it = head;
+  while (it->next->id != id)
+  {
+    it = it->next;
+    if (it == nullptr)
+      return;
+  }
+  it->next = it->next->next;
+}
+
 int main()
 {
   // intialize seed
