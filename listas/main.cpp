@@ -1,12 +1,26 @@
 #include <memory>
+#include <iostream>
+#include <functional>
 
 using namespace std;
+
+// generate random string of 5 chars
+string uuid()
+{
+  string id = "";
+  for (int i = 0; i < 5; i++)
+  {
+    id += 'a' + rand() % 26;
+  }
+  return id;
+}
 
 template <typename T>
 struct Node
 {
   T data;
   shared_ptr<Node> next;
+  // string id;
 };
 
 template <typename T>
@@ -36,19 +50,36 @@ P_Node<T> push_r(P_Node<T> first, T const &data)
   return nNode;
 }
 
-void imprimir_elems(P_Node first)
+template <typename T>
+void imprimir_elems(P_Node<T> first)
 {
-  // mostrar todos los datos // iterativo
+  auto it = first;
+  while (it)
+  {
+    cout << it->data << endl;
+    it = it->next;
+  }
 }
 
-void imprimir_recursivo(P_Node first)
+template <typename T>
+void imprimir_recursivo(P_Node<T> p)
 {
-  // mostrar todos los datos;
+  if (p)
+  {
+    cout << p;
+    imprimir_recursivo<T>(p->next);
+  }
 }
 
-void forEach(P_Node first, /* funcion lambda*/)
+template <typename T>
+void forEach(P_Node<T> first, fuction<void(T)> f)
 {
-  // hace lo que diga la f_lambda
+  auto it = first;
+  while (it)
+  {
+    f(it->data);
+    it = it->next;
+  }
 }
 
 int main()
