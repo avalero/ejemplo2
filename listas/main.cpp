@@ -2,10 +2,12 @@
 #include <iostream>
 #include <functional>
 #include <vector>
+#include <cstdlib> // For srand() and rand()
+#include <ctime>   // For time()
 
 using namespace std;
 
-// generate random string of 5 chars
+// Generate a random string of 5 characters
 string uuid()
 {
   string id = "";
@@ -103,16 +105,20 @@ template <typename T>
 void remove(P_Node<T> &head, string const &id)
 {
   if (head->id == id)
+  {
     head = head->next;
+    return;
+  }
 
   auto it = head;
-  while (it->next->id != id)
+  while (it->next && it->next->id != id)
   {
     it = it->next;
-    if (it == nullptr)
-      return;
   }
-  it->next = it->next->next;
+  if (it->next)
+  {
+    it->next = it->next->next;
+  }
 }
 
 struct Person
@@ -123,18 +129,17 @@ struct Person
 
 void showByName(P_Node<Person> first)
 {
-
   string name;
   cout << "Introduce nombre: ";
   getline(cin, name);
   auto result = filter<Person>(first, [name](P_Node<Person> p)
-                               { return p->data.nombre.find(name) != -1; });
+                               { return p->data.nombre.find(name) != string::npos; });
   cout << "\n-----------------------------------------------------------------------\n";
   for (auto const &p : result)
   {
     cout << "|\t" << p->id << ":\t" << p->data.nombre << "\t" << p->data.telefono << endl;
   }
-  cout << "\n-----------------------------------------------------------------------\n";
+  cout << "-----------------------------------------------------------------------\n";
 }
 
 void showAll(P_Node<Person> const &first)
@@ -167,34 +172,34 @@ void removeById(P_Node<Person> &first)
 {
   string id;
   cout << "Introduce id: ";
-  cin >> id;
-  cin.ignore();
+  getline(cin, id);
   remove<Person>(first, id);
+}
+
+void clearScreen()
+{
+  // This will clear the console screen on Unix-based systems
+  cout << "\033[2J\033[1;1H";
 }
 
 int main()
 {
-
-  // intialize seed
-  srand(time(0));
-
-  // 1. Mostrar todos (id, nombre, telefon)
-  // 2. Añadir (nombre, telefono)
-  // 3. Borrar (por id)
-  // 4. Buscar (por nombre) -> mostrar
+  // Initialize seed
+  srand(static_cast<unsigned>(time(0)));
 
   P_Node<Person> head = nullptr;
 
   int option{0};
   while (true)
   {
-    // clear screen
     if (option != 0)
     {
-      cout << "Pulsa enter para continuar... ";
+      cout << "\nPulsa enter para continuar... ";
       cin.get();
     }
-    cout << "\033[2J\033[1;1H";
+
+    clearScreen();
+
     cout << "╔════════════════════════════════════════════╗" << endl;
     cout << "║                 MENU PRINCIPAL             ║" << endl;
     cout << "╠════════════════════════════════════════════╣" << endl;
