@@ -30,16 +30,58 @@ template <typename T>
 using P_Node = shared_ptr<Node<T>>;
 
 template <typename T>
-P_Node<T> push(P_Node<T> first, T const &data)
+P_Node<T> push_in_order(P_Node<T> first, T const &data)
 {
   auto it = first;
+  if (first->data < data)
+  {
+    P_Node<T> nNode = make_shared<Node<T>>(Node<T>{data, first, uuid()});
+    first = nNode;
+    return first;
+  }
+  while (it->next)
+  {
+    if (it->next->data < data)
+    {
+      it = it->next;
+    }
+    else
+    {
+      P_Node<T> nNode = make_shared<Node<T>>(Node<T>{data, it->next, uuid()});
+      it->next = nNode;
+      return first;
+    }
+  }
+  P_Node<T> nNode = make_shared<Node<T>>(Node<T>{data, nullptr, uuid()});
+  it->next = nNode;
+  return first;
+}
+
+template <typename T>
+P_Node<T> push_back(P_Node<T> first, T const &data)
+{
+  auto it = first;
+
   while (it->next)
   {
     it = it->next;
   }
   P_Node<T> nNode = make_shared<Node<T>>(Node<T>{data, nullptr, uuid()});
   it->next = nNode;
-  return nNode;
+  return first;
+}
+
+template <typename T>
+P_Node<T> push(P_Node<T> first, T const &data, bool inOrder = false)
+{
+  if (inOrder)
+  {
+    return push_in_order(first, data);
+  }
+  else
+  {
+    return push_back(first, data);
+  }
 }
 
 template <typename T>
@@ -127,6 +169,21 @@ struct Person
   string telefono;
 };
 
+bool operator<(Person const &p1, Person const &p2)
+{
+  return (p1.nombre < p2.nombre);
+}
+
+bool operator>(Person const &p1, Person const &p2)
+{
+  return (p1.nombre > p2.nombre);
+}
+
+bool operator==(Person const &p1, Person const &p2)
+{
+  return (p1.nombre == p2.nombre && p1.telefono == p2.telefono);
+}
+
 void showByName(P_Node<Person> first)
 {
   string name;
@@ -164,7 +221,7 @@ void add(P_Node<Person> &first)
   }
   else
   {
-    push<Person>(first, {nombre, telefono});
+    first = push<Person>(first, {nombre, telefono}, true);
   }
 }
 
