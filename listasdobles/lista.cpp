@@ -108,3 +108,26 @@ P_Node push_in_order(P_Node const &head, int data, bool asc)
   push_back(head, data);
   return head;
 }
+
+P_Node pop_back(P_Node &head)
+{
+  if (!head)
+    return nullptr;
+  auto it = head;
+
+  if (!head->next)
+  {
+    auto aux = head;
+    head = nullptr;
+    return aux;
+  }
+
+  while (it->next)
+  {
+    it = it->next;
+  }
+
+  it->prev->next = nullptr; // el anterior a mi es el nuevo ultimo
+  it->prev = nullptr;       // yo soy el ultimo y me salgo de la lista
+  return it;                // devuelvo el que era el ultimo
+}
