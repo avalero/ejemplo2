@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstdlib> // For srand() and rand()
 #include <ctime>   // For time()
+#include <fstream>
 
 using namespace std;
 
@@ -58,8 +59,13 @@ P_Node<T> push_in_order(P_Node<T> first, T const &data)
 }
 
 template <typename T>
-P_Node<T> push_back(P_Node<T> first, T const &data)
+P_Node<T> push_back(P_Node<T> &first, T const &data)
 {
+  if (!first)
+  {
+    first = make_shared<Node<T>>(Node<T>{data, nullptr, uuid()});
+    return first;
+  }
   auto it = first;
 
   while (it->next)
@@ -169,6 +175,18 @@ struct Person
   string telefono;
 };
 
+istream &operator>>(istream &is, Person &p)
+{
+  is >> p.nombre >> p.telefono;
+  return is;
+}
+
+ostream &operator<<(ostream &os, Person const &p)
+{
+  os << p.nombre << " " << p.telefono;
+  return os;
+}
+
 bool operator<(Person const &p1, Person const &p2)
 {
   return (p1.nombre < p2.nombre);
@@ -239,6 +257,32 @@ void clearScreen()
   cout << "\033[2J\033[1;1H";
 }
 
+void saveToFile(string const &filename, P_Node<Person> const &head)
+{
+  ofstream archivo(filename);
+  if (!archivo)
+  {
+    throw std::runtime_error("No se pudo abrir el archivo");
+  }
+  forEach<Person>(head, [&archivo](P_Node<Person> p)
+                  { archivo << p->data << endl; });
+}
+
+void openFromFile(string filename, P_Node<Person> &head)
+{
+  ifstream archivo(filename);
+  if (!archivo)
+  {
+    throw std::runtime_error("No se pudo abrir el archivo");
+  }
+  Person aux;
+  head = nullptr;
+  while (archivo >> aux)
+  {
+    push_back(head, aux);
+  }
+}
+
 int main()
 {
   // Initialize seed
@@ -264,6 +308,7 @@ int main()
     cout << "║  2. Añadir (nombre, telefono)              ║" << endl;
     cout << "║  3. Borrar (por id)                        ║" << endl;
     cout << "║  4. Buscar (por nombre) -> mostrar         ║" << endl;
+    cout << "║  5. Guardar en archivo                     ║" << endl;
     cout << "║ -1. Salir                                  ║" << endl;
     cout << "╚════════════════════════════════════════════╝" << endl;
     cout << "Introduce una opción: ";

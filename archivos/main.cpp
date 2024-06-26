@@ -4,76 +4,50 @@
 #include <array>
 using namespace std;
 
-struct Matrix
+struct Person
 {
-  array<array<float, 3>, 3> data;
+  string name;
+  int edad;
 };
 
-istream &operator>>(istream &is, Matrix &m)
+ostream &operator<<(ostream &os, Person const &p)
 {
-  for (int r{0}; r < m.data.size(); r++)
-  {
-    for (int c{0}; c < m.data.at(r).size(); c++)
-    {
-      is >> m.data.at(r).at(c);
-    }
-  }
-  return is;
+  os << p.name << " " << p.edad;
+  return os;
 }
 
-ostream &operator<<(ostream &os, Matrix const &m)
+istream &operator>>(istream &is, Person &p)
 {
-  if (typeid(os) == typeid(ofstream))
-  {
-    for (int r{0}; r < m.data.size(); r++)
-    {
-      for (int c{0}; c < m.data.at(r).size(); c++)
-      {
-        os << m.data.at(r).at(c) << " ";
-      }
-    }
-  }
-  else
-  {
-    for (int r{0}; r < m.data.size(); r++)
-    {
-      for (int c{0}; c < m.data.at(r).size(); c++)
-      {
-        os << m.data.at(r).at(c) << "\t";
-      }
-      os << endl;
-    }
-  }
-  return os;
+  is >> p.name >> p.edad;
+  return is;
 }
 
 int main()
 {
-  cout << "Introduce los 9 valores de la matriz ordenados por filas y columnas:\n";
-  Matrix miMatriz;
-  cin >> miMatriz;
-  // escribir la matriz en un archivo
-  ofstream archivo("data.txt");
-  if (!archivo)
+  // cout << "Introduce nombre y edad separado por espacio: \n";
+  // Person p;
+  // cin >> p;
+
+  // ofstream archivo("data.txt");
+  // if (!archivo)
+  // {
+  //   cout << "Error\n";
+  //   return -1;
+  // }
+
+  // archivo << p << endl;
+
+  // archivo.close();
+
+  ifstream archivoIn("data.txt");
+  if (!archivoIn)
   {
-    cout << "Error al abrir para escribir\n";
     return -1;
   }
 
-  archivo << miMatriz << endl;
-
-  archivo.close();
-
-  ifstream archivoLectura("data.txt");
-  if (!archivoLectura)
+  Person p;
+  while (archivoIn >> p)
   {
-    cout << "Error al abrir para leer\n";
-    return -1;
+    cout << p << endl;
   }
-
-  archivoLectura >> miMatriz;
-
-  // leer la matriz de un archivo
-  cout << miMatriz;
-  return 1;
 }
