@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "iosfwd": "cpp",
+    "string": "cpp",
+    "format": "cpp",
+    "array": "cpp",
+    "string_view": "cpp",
+    "initializer_list": "cpp",
+    "span": "cpp"
+  }
+}

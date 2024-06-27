@@ -24,6 +24,7 @@ set(SOURCES
   main.cpp
   node_test.cpp
   utils_test.cpp
+  student_test.cpp
   ../node.cpp
   ../student.cpp
   ../utils.cpp
