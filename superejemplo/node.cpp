@@ -29,3 +29,32 @@ void forEach(PNode const &head, LambdaForEach const &f)
     it = it->next;
   }
 }
+
+vector<PNode> filter(PNode const &head, function<bool(Student const &)> const &f)
+{
+  vector<PNode> result;
+  auto it = head;
+  while (it)
+  {
+    if (f(it->data))
+    {
+      result.push_back(it);
+    }
+    it = it->next;
+  }
+  return result;
+}
+
+PNode find(PNode const &head, function<bool(Student const &)> const &f)
+{
+  auto it = head;
+  while (it)
+  {
+    if (f(it->data))
+    {
+      return it;
+    }
+    it = it->next;
+  }
+  return nullptr;
+}

@@ -41,3 +41,15 @@ void forEach(PNode const &head, LambdaForEach const &f);
  * forEach(new_list, [](Student const &st) { cout << st << endl; });
  */
 vector<PNode> filter(PNode const &head, function<bool(Student const &)> const &f);
+
+/**
+ * Finds the first element that satisfies f
+ * @return the element that satisfies f
+ * @param head The head of the list
+ * @param f The filter function
+ * @example
+ * auto f = [](Student const &st) { return st.name == "Alberto"; };
+ * auto node = find(head, f);
+ * cout << node->data << endl;
+ */
+PNode find(PNode const &head, function<bool(Student const &)> const &f);
