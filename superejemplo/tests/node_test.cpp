@@ -103,3 +103,33 @@ TEST(find, filter_matching)
   EXPECT_TRUE(found != nullptr);
   EXPECT_EQ(found->data, st1);
 }
+
+TEST(findLast, filter_not_matching)
+{
+  Student st1{"1234", "Alberto", {"Progra I", "Progra 2", "EDA"}};
+  Student st2{"4321", "Luisa", {"Progra I", "Progra 2", "EDA"}};
+  PNode head = nullptr;
+  head = push(head, st1);
+  head = push(head, st2);
+  auto f = [](Student const &st)
+  { return st.name == "Andres"; };
+  auto found = findLast(head, f);
+  EXPECT_EQ(found, nullptr);
+}
+
+TEST(findLast, filter_matching)
+{
+  Student st1{"1234", "Alberto", {"Progra I", "Progra 2", "EDA"}};
+  Student st2{"4321", "Luisa", {"Progra I", "Progra 2", "EDA"}};
+  Student st3{"5678", "Alberto", {"Progra I", "Progra 2", "EDA"}};
+  PNode head = nullptr;
+  head = push(head, st1);
+  head = push(head, st2);
+  head = push(head, st3);
+
+  auto f = [](Student const &st)
+  { return st.name == "Alberto"; };
+  auto found = findLast(head, f);
+  EXPECT_TRUE(found != nullptr);
+  EXPECT_EQ(found->data, st3);
+}

@@ -58,3 +58,18 @@ PNode find(PNode const &head, function<bool(Student const &)> const &f)
   }
   return nullptr;
 }
+
+PNode findLast(PNode const &head, function<bool(Student const &)> const &f)
+{
+  PNode last = nullptr;
+  auto it = head;
+  while (it)
+  {
+    if (f(it->data))
+    {
+      last = it;
+    }
+    it = it->next;
+  }
+  return last;
+}

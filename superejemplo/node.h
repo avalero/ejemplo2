@@ -53,3 +53,16 @@ vector<PNode> filter(PNode const &head, function<bool(Student const &)> const &f
  * cout << node->data << endl;
  */
 PNode find(PNode const &head, function<bool(Student const &)> const &f);
+
+/**
+ * Finds the last element that satisfies f
+ * @return the element that satisfies f
+ * @param head The head of the list
+ * @param f The filter function
+ * @example
+ * auto f = [](Student const &st) { return st.name == "Alberto"; };
+ * auto node = findLast(head, f);
+ * cout << node->data << endl;
+ *
+ */
+PNode findLast(PNode const &head, function<bool(Student const &)> const &f);
