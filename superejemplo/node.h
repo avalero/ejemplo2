@@ -32,7 +32,7 @@ void forEach(PNode const &head, LambdaForEach const &f);
 
 /**
  * Filters the list (starting at head) and returns a new list with the elements that satisfy f
- * @return the new list
+ * @return the new list (vector of shared_ptr<Node>)
  * @param head The head of the list
  * @param f The filter function
  * @example
