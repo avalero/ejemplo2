@@ -15,8 +15,8 @@ int uuid()
 
 struct Data
 {
-  int value;
-  int id = uuid();
+  const int value;
+  const int id = uuid();
 };
 
 struct Node
