@@ -26,7 +26,8 @@ struct Node
   Coordinates data;
   set<Edge> neighbors;
   float cost = INT_MAX;
-  shared_ptr<Node> prev;
+  float estimation = INT_MAX;
+  shared_ptr<Node> prev = nullptr;
 };
 
 float operator-(Coordinates const &c1, Coordinates const &c2)
@@ -72,6 +73,41 @@ void dijkstra(shared_ptr<Node> start, vector<shared_ptr<Node>> nodes)
       }
     }
   }
+}
+
+bool astar(shared_ptr<Node> start, shared_ptr<Node> end, vector<shared_ptr<Node>> nodes)
+{
+  start->cost = 0;
+  auto NOT_VISITED = nodes;
+
+  // calcular estimacion de llegada
+  for (auto &elem : nodes)
+  {
+    elem->estimation = end->data - elem->data;
+  }
+
+  auto current = start;
+  while (current != end && NOT_VISITED.size() > 0)
+  {
+    for (auto node : NOT_VISITED)
+    {
+      if ((node->cost + node->estimation) < (current->cost + current->estimation))
+        current = node;
+    }
+
+    // remove current from NOT_VISITED
+    NOT_VISITED.erase(find(NOT_VISITED.begin(), NOT_VISITED.end(), current));
+
+    for (auto edge : current->neighbors)
+    {
+      if (edge.node->cost > current->cost + edge.distance)
+      {
+        edge.node->cost = current->cost + edge.distance;
+        edge.node->prev = current;
+      }
+    }
+  }
+  return current == end;
 }
 
 int main()
