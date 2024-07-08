@@ -1,64 +1,67 @@
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
-class Person
+class Complejo
 {
+  friend Complejo operator+(Complejo const &c1, Complejo const &c2);
+  friend ostream &operator<<(ostream &os, Complejo const &c);
 
 public:
-  Person(string n, int e)
+  Complejo(float real, float im) : real{real}, im{im}
   {
-    cout << "Constructor con parametros" << endl;
-    if (e < 0)
-    {
-      cout << "La edad no puede ser menor que 0" << endl;
-      throw new string("Errro de edad");
-    }
-
-    edad = e;
-    name = n;
   }
 
-  Person()
+  float getImaginario() const
   {
-    cout << "constructor sin parámetros" << endl;
-    edad = 0;
-    name = "";
+    return im;
+  }
+
+  float getReal() const
+  {
+    return real;
+  }
+
+  void setImaginario(float imaginario)
+  {
+    im = imaginario;
+  }
+
+  void setReal(float r)
+  {
+    real = r;
+  }
+
+  float getModule() const
+  {
+    return sqrt(real * real + im * im);
   }
 
 private:
-  string name;
-  int edad;
-
-public:
-  string getName() { return name; }
-  void setName(string const &n) { name = n; }
-
-  int getEdad() { return edad; }
-  void setEdad(int e)
-  {
-    if (e < 0)
-      throw new string{"La edad no puede ser menor que 0"};
-    edad = e;
-  }
-  void cumplirAños()
-  {
-    edad++;
-  }
-  void print()
-  {
-    cout << "Nombre: " << name << endl;
-    cout << "Edad: " << edad << endl;
-  }
+  float real;
+  float im;
 };
 
+Complejo suma(Complejo const &c1, Complejo const &c2)
+{
+  return Complejo{c1.getReal() + c2.getReal(), c1.getImaginario() + c2.getImaginario()};
+}
+
+Complejo operator+(Complejo const &c1, Complejo const &c2)
+{
+  return Complejo{c1.real + c2.real, c1.im + c2.im};
+}
+
+ostream &operator<<(ostream &os, Complejo const &c)
+{
+  os << c.real << " + " << c.im << "i";
+  return os;
+}
 int main()
 {
-  // Person unaPersona{"Alberto", 16};
-  Person otraPersona{"Alberto", -34};
-  otraPersona.setEdad(-23);
+  Complejo c1{1, 1};
+  Complejo c2{3, 2};
 
-  // unaPersona.print();
-
-  return 1;
+  auto c3 = c1 + c2;
 }
