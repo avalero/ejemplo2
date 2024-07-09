@@ -19,7 +19,7 @@ int main()
   cout << dynamic_cast<Cuadrado *>(fig.at(0).get())->getDiagonal() << endl;
   cout << dynamic_cast<TrianguloEq *>(fig.at(1).get())->getAltura() << endl;
 
-  shared_ptr<Cuadrado> c2 = make_shared<Cuadrado>(dynamic_cast<Cuadrado *>(fig.at(1).get()));
+  Cuadrado *c2 = dynamic_cast<Cuadrado *>(fig.at(1).get());
 
   if (!c2)
   {
@@ -28,6 +28,7 @@ int main()
   else
   {
     cout << "Se pudo hacer el cast" << endl;
+    c2->getDiagonal();
   }
 
   return 0;
